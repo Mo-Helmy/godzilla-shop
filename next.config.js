@@ -66,7 +66,7 @@ const nextConfig = (phase) => {
     //   SENDGRID_FROM_EMAIL: 'engmhelmy.1990@gmail.com',
     // },
     env: {
-      API_URL: 'http://godzilla.us-east-1.elasticbeanstalk.com',
+      API_URL: 'https://api.solo-godzilla.online',
       CLIENT_URL: 'https://godzilla-shop.vercel.app',
       MONGODB_URL:
         'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
