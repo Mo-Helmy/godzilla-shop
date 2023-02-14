@@ -66,12 +66,12 @@ const nextConfig = (phase) => {
     //   SENDGRID_FROM_EMAIL: 'engmhelmy.1990@gmail.com',
     // },
     env: {
-      API_URL: 'http://godzilla.us-east-1.elasticbeanstalk.com/',
-      CLIENT_URL: 'https://tshit-shop.vercel.app/',
+      API_URL: 'http://godzilla.us-east-1.elasticbeanstalk.com',
+      CLIENT_URL: 'https://godzilla-shop.vercel.app',
       MONGODB_URL:
         'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
       BCRYPT_SECRET: 'mohelmyM0H3IMY',
-      NEXTAUTH_URL: 'https://tshit-shop.vercel.app/',
+      NEXTAUTH_URL: 'https://godzilla-shop.vercel.app',
       NEXTAUTH_SECRET: 'mohelmyM0H3IMYmohelmyM0H3IMYmohelmyM0H3IMY',
       GOOGLE_CLIENT_ID:
         '1033327395893-4qvk1klp87v18mnbvpe5399srhui1ln5.apps.googleusercontent.com',
