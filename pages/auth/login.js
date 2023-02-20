@@ -1,9 +1,9 @@
-import { getServerSession } from 'next-auth';
+// import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import LoginForm from '../../components/auth/LoginForm';
 import Loading from '../../components/UI/Loading';
-import { authOptions } from '../api/auth/[...nextauth]';
+// import { authOptions } from '../api/auth/[...nextauth]';
 
 const LoginPage = () => {
   const router = useRouter();
