@@ -85,7 +85,6 @@ const nextConfig = (phase) => {
       MONGODB_URL:
         'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
       BCRYPT_SECRET: 'mohelmyM0H3IMY',
-      NEXTAUTH_URL: 'https://godzilla-shop.vercel.app',
       NEXTAUTH_SECRET: 'mohelmyM0H3IMYmohelmyM0H3IMYmohelmyM0H3IMY',
       GOOGLE_CLIENT_ID:
         '1033327395893-4qvk1klp87v18mnbvpe5399srhui1ln5.apps.googleusercontent.com',
