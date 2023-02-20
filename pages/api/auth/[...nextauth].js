@@ -134,9 +134,9 @@ export const authOptions = {
       return token;
     },
   },
-  pages: {
-    signIn: '/auth/login',
-  },
+  // pages: {
+  //   signIn: '/auth/login',
+  // },
 };
 
 export default NextAuth(authOptions);
