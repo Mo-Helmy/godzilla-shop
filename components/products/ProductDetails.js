@@ -27,7 +27,7 @@ import { favoriteActions } from '../../store/favoriteSlice';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { cartActions } from '../../store/cartSlice';
 import ColorsButtonGroup from './ProductDetails/ColorsButtonGroup';
-import { apiUrl } from '../../util/link-config';
+import { apiUrl, s3Url } from '../../util/link-config';
 import ProductTags from './ProductDetails/ProductTags';
 import DesignedBy from './ProductDetails/DesignedBy';
 
@@ -194,7 +194,7 @@ const ProductDetails = ({ product }) => {
                 <Image
                   src={
                     product.imagesUrl &&
-                    apiUrl + product.imagesUrl[mainImageIndex]
+                    s3Url + product.imagesUrl[mainImageIndex]
                   }
                   alt={`${product?.type} - ${product?.title} - ${product?.tags} - ${product?.colors}`}
                   // width={350}
@@ -276,7 +276,7 @@ const ProductDetails = ({ product }) => {
                       onClick={() => setMainImageIndex(index)}
                     >
                       <Image
-                        src={apiUrl + image}
+                        src={s3Url + image}
                         width={60}
                         height={60}
                         alt={product?.title}

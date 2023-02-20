@@ -11,13 +11,19 @@ const nextConfig = (phase) => {
             protocol: 'http',
             hostname: 'localhost',
             port: '8080',
-            pathname: '/api/**',
+            pathname: '/api/**/*',
+          },
+          {
+            protocol: 'https',
+            hostname: 'solo-godzilla.s3.us-east-1.amazonaws.com',
+            pathname: '/**/*',
           },
         ],
       },
       env: {
         API_URL: 'http://localhost:8080',
         CLIENT_URL: 'http://localhost:3000',
+        S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
         MONGODB_URL:
           'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
         BCRYPT_SECRET: 'mohelmyM0H3IMY',
@@ -40,19 +46,26 @@ const nextConfig = (phase) => {
           protocol: 'http',
           hostname: 'localhost',
           port: '4000',
-          pathname: '/api/**',
+          pathname: '/api/**/*',
         },
         {
-          protocol: 'http',
-          hostname: 'godzilla.us-east-1.elasticbeanstalk.com',
-          port: '8080',
-          pathname: '/api/**',
+          protocol: 'https',
+          hostname: 'api.solo-godzilla.online',
+          port: '443',
+          pathname: '/api/**/*',
+        },
+        {
+          protocol: 'https',
+          hostname: 'solo-godzilla.s3.us-east-1.amazonaws.com',
+          pathname: '/**/*',
         },
       ],
     },
+
     // env: {
-    //   API_URL: 'http://localhost:4000',
+    //   API_URL: 'https://api.solo-godzilla.online',
     //   CLIENT_URL: 'http://localhost:3000',
+    //   S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
     //   MONGODB_URL:
     //     'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
     //   BCRYPT_SECRET: 'mohelmyM0H3IMY',
@@ -68,6 +81,7 @@ const nextConfig = (phase) => {
     env: {
       API_URL: 'https://api.solo-godzilla.online',
       CLIENT_URL: 'https://godzilla-shop.vercel.app',
+      S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
       MONGODB_URL:
         'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
       BCRYPT_SECRET: 'mohelmyM0H3IMY',
@@ -82,23 +96,5 @@ const nextConfig = (phase) => {
     },
   };
 };
-// const nextConfig = {
-//   reactStrictMode: false,
-//   images: {
-//     // path: "localhost",
-//     remotePatterns: [
-//       {
-//         protocol: 'http',
-//         hostname: 'localhost',
-//         port: '4000',
-//         pathname: '/api/**',
-//       },
-//     ],
-//   },
-//   // env: {
-//   //   API_URL: 'http://localhost:4000',
-//   //   CLIENT_URL: 'http://localhost:3000',
-//   // },
-// };
 
 module.exports = nextConfig;

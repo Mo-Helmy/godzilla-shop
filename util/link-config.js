@@ -7,6 +7,7 @@ let apiUrl = process.env.API_URL;
 console.log('🚀 ~ file: link-config.js:7 ~ apiUrl', apiUrl);
 let clientUrl = process.env.CLIENT_URL;
 console.log('🚀 ~ file: link-config.js:9 ~ clientUrl', clientUrl);
+let s3Url = process.env.S3_URL;
 
 // let apiUrl;
 // let clientUrl;
@@ -20,4 +21,4 @@ console.log('🚀 ~ file: link-config.js:9 ~ clientUrl', clientUrl);
 //   // clientUrl = 'https://tshit-shop-a5vur5cfb-mo-helmy.vercel.app';
 // }
 
-export { apiUrl, clientUrl };
+export { apiUrl, clientUrl, s3Url };

@@ -143,12 +143,12 @@ const AddDesignForm = ({ session, token }) => {
         setSelectedTags([]);
         setDisabledUplaod(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((res) => {
+        console.log(res);
         dispatch(
           snackbarActions.openSnackbar({
             severity: 'error',
-            message: 'Upload Failed',
+            message: res.data.error,
           })
         );
         setDisabledUplaod(false);

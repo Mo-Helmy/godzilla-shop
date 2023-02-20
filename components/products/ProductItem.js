@@ -28,7 +28,7 @@ import { useSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { favoriteActions } from '../../store/favoriteSlice';
 import { snackbarActions } from '../../store/snackbarSlice';
-import { apiUrl } from '../../util/link-config';
+import { apiUrl, s3Url } from '../../util/link-config';
 
 const ProductItem = ({ product, colorsFilter, onSelectProduct }) => {
   const [mainImage, setMainImage] = useState(null);
@@ -94,7 +94,7 @@ const ProductItem = ({ product, colorsFilter, onSelectProduct }) => {
             height={350}
             // height={150}
             image={
-              apiUrl + (mainImage || filteredMainImage || product?.imagesUrl[0])
+              s3Url + (mainImage || filteredMainImage || product?.imagesUrl[0])
             }
             sx={{ p: 1 }}
           />
@@ -141,7 +141,7 @@ const ProductItem = ({ product, colorsFilter, onSelectProduct }) => {
                     onClick={() => setMainImage(image)}
                   >
                     <Image
-                      src={apiUrl + image}
+                      src={s3Url + image}
                       fill={true}
                       sizes={40}
                       alt={product?.title}
