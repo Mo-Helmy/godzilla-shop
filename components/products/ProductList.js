@@ -11,10 +11,13 @@ import { useState } from 'react';
 import ProductDetails from './ProductDetails';
 
 import ProductItem from './ProductItem';
+import { useSession } from 'next-auth/react';
 
 const ProductList = ({ products, colorsFilter }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const { data: session } = useSession();
 
   const SelectedProductHandler = (product) => {
     setSelectedProduct(product);
@@ -40,6 +43,7 @@ const ProductList = ({ products, colorsFilter }) => {
               product={product}
               colorsFilter={colorsFilter}
               onSelectProduct={SelectedProductHandler}
+              session={session}
             />
           ))}
       </Stack>

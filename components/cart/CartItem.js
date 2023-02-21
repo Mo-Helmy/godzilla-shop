@@ -15,7 +15,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { useRouter } from 'next/router';
-import { apiUrl } from '../../util/link-config';
+import { apiUrl, s3Url } from '../../util/link-config';
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const CartItem = ({ item }) => {
     <Card sx={{ display: 'flex', maxWidth: '100%', position: 'relative' }}>
       <CardMedia
         component="img"
-        image={apiUrl + item.colorUrl}
+        image={s3Url + item.colorUrl}
         alt={item.title}
         sx={{ width: 150 }}
       />

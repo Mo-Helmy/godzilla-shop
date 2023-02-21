@@ -30,7 +30,7 @@ import { favoriteActions } from '../../store/favoriteSlice';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl, s3Url } from '../../util/link-config';
 
-const ProductItem = ({ product, colorsFilter, onSelectProduct }) => {
+const ProductItem = ({ product, colorsFilter, onSelectProduct, session }) => {
   const [mainImage, setMainImage] = useState(null);
   const [showImageList, setShowImageList] = useState(false);
   const router = useRouter();
@@ -49,10 +49,7 @@ const ProductItem = ({ product, colorsFilter, onSelectProduct }) => {
   }
 
   const toggleFavoriteHandler = async () => {
-    const userDataRes = await fetch('/api/get-token');
-    const userData = await userDataRes.json();
-
-    if (!userData.user) {
+    if (!session) {
       dispatch(
         snackbarActions.openSnackbar({
           severity: 'info',

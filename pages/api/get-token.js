@@ -14,10 +14,4 @@ export default async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: 'user not found' });
   }
-
-  //   if (token) {
-  //     res.status(200).json({ token });
-  //   } else {
-  //     res.status(400).json({ token });
-  //   }
 };

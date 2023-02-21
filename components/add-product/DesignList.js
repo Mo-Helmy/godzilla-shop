@@ -25,7 +25,7 @@ import ProductItem from '../products/ProductItem';
 import Loading from '../UI/Loading';
 import { useDispatch } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
-import { apiUrl } from '../../util/link-config';
+import { apiUrl, s3Url } from '../../util/link-config';
 import { axiosApi, axiosApiAuth } from '../../util/axiosInstance';
 
 const DesignList = ({
@@ -120,9 +120,10 @@ const DesignList = ({
               color="inherit"
               avatar={
                 <Avatar
-                  src={`${apiUrl}/api/media/preview?design=${
-                    design.fileName.split('.')[0]
-                  }`}
+                  src={`${s3Url}/api/assets/designs/${design.fileName}`}
+                  // src={`${apiUrl}/api/media/preview?design=${
+                  //   design.fileName.split('.')[0]
+                  // }`}
                 />
               }
               title={`${design.title.toUpperCase()}`}
@@ -141,9 +142,10 @@ const DesignList = ({
             <Divider />
             <CardMedia
               component="img"
-              image={`${apiUrl}/api/media/preview?design=${
-                design.fileName.split('.')[0]
-              }`}
+              image={`${s3Url}/api/assets/designs/${design.fileName}`}
+              // image={`${apiUrl}/api/media/preview?design=${
+              //   design.fileName.split('.')[0]
+              // }`}
               // width="100%"
               // height="100%"
               sx={{ width: '100%' }}

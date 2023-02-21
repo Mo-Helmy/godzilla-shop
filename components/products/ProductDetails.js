@@ -30,6 +30,7 @@ import ColorsButtonGroup from './ProductDetails/ColorsButtonGroup';
 import { apiUrl, s3Url } from '../../util/link-config';
 import ProductTags from './ProductDetails/ProductTags';
 import DesignedBy from './ProductDetails/DesignedBy';
+import { useSession } from 'next-auth/react';
 
 const ProductDetails = ({ product }) => {
   const theme = useTheme();
@@ -44,6 +45,8 @@ const ProductDetails = ({ product }) => {
     quantity: false,
   });
 
+  const { data: session } = useSession();
+
   console.log(
     '🚀 ~ file: ProductDetails.js:32 ~ ProductDetails ~ product',
     product
@@ -57,10 +60,7 @@ const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
 
   const toggleFavoriteHandler = async () => {
-    const userDataRes = await fetch('/api/get-token');
-    const userData = await userDataRes.json();
-
-    if (!userData.user) {
+    if (!session) {
       dispatch(
         snackbarActions.openSnackbar({
           severity: 'info',
@@ -117,10 +117,7 @@ const ProductDetails = ({ product }) => {
         quantity: 'Please select valid quantity',
       }));
 
-    const userDataRes = await fetch('/api/get-token');
-    const userData = await userDataRes.json();
-
-    if (!userData.user) {
+    if (!session) {
       dispatch(
         snackbarActions.openSnackbar({
           severity: 'info',

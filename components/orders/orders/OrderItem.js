@@ -21,7 +21,7 @@ import {
 } from '@mui/lab';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
-import { apiUrl } from '../../../util/link-config';
+import { apiUrl, s3Url } from '../../../util/link-config';
 
 const orderStatus = ['pending', 'printing', 'delivering', 'delivered'];
 
@@ -36,7 +36,7 @@ const OrderItem = ({ order }) => {
           <Card key={i} sx={{ display: 'flex', height: 'fit-content' }}>
             <CardMedia
               component="img"
-              image={apiUrl + item.colorUrl}
+              image={s3Url + item.colorUrl}
               alt={item.title}
               sx={{ width: 100 }}
             />
