@@ -17,3 +17,11 @@
 
 # API_URL="http://localhost:4000"
 # CLIENT_URL="http://localhost:3000"
+
+
+        AWS_ACCESS_KEY_ID: 'AKIA5HYUE7ZQ6V2VW6MK',
+        AWS_SECRET_ACCESS_KEY: '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',
+        AWS_REGION: 'us-east-1',
+
+        AWS_PROFILE: 'default',
+        AWS_BUCKET: 'solo-godzilla',

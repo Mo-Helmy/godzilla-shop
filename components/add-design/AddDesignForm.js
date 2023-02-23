@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl } from '../../util/link-config';
 import axiosInstance from '../../util/axiosInstance';
+import { uploadImageToS3 } from '../../util/aws-s3';
+import axios from 'axios';
 
 const AddDesignForm = ({ session, token }) => {
   const [designsUrl, setDesignsUrl] = useState([]);
@@ -113,22 +115,38 @@ const AddDesignForm = ({ session, token }) => {
       return;
     }
 
-    const fd = new FormData();
+    let designsPng = [];
 
-    fd.append('format', format);
-    fd.append('userId', session.id);
-
-    selctedTags.map((tag) => {
-      fd.append('tags', tag.trim());
-    });
-
+    //upload designs to aws S3
     Object.keys(designs).map((key) => {
-      fd.append('designs', designs[key]);
+      console.log(
+        '🚀 ~ file: AddDesignForm.js:127 ~ Object.keys ~ designs:',
+        designs[key]
+      );
+
+      const fileName =
+        new Date().getTime() +
+        '-' +
+        Math.random().toString(36).substring(2) +
+        '-' +
+        designs[key].name.replaceAll(' ', '-');
+
+      const title = designs[key].name.split('.')[0];
+
+      designsPng.push({ fileName, title });
+
+      uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
     });
 
     setDisabledUplaod(true);
+
     axiosInstance
-      .post(apiUrl + '/api/media/add-design', fd)
+      .post('/api/media/add-design', {
+        files: designsPng,
+        format,
+        tags: allTags,
+        userId: session.id,
+      })
       .then((res) => {
         dispatch(
           snackbarActions.openSnackbar({
@@ -154,6 +172,89 @@ const AddDesignForm = ({ session, token }) => {
         setDisabledUplaod(false);
       });
   };
+
+  //upload handler using formData for multer
+  // const uploadHandler = () => {
+  //   if (error.designs) return;
+  //   if (!format) {
+  //     setError((prev) => ({ ...prev, format: 'please select a valid format' }));
+  //     return;
+  //   }
+  //   if (designs.length === 0) {
+  //     setError((prev) => ({
+  //       ...prev,
+  //       designs: 'please select at least one design',
+  //     }));
+  //     return;
+  //   }
+  //   if (selctedTags.length === 0) {
+  //     setError((prev) => ({
+  //       ...prev,
+  //       tags: 'please select at least one tag',
+  //     }));
+  //     return;
+  //   }
+
+  //   const fd = new FormData();
+
+  //   fd.append('format', format);
+  //   fd.append('userId', session.id);
+
+  //   selctedTags.map((tag) => {
+  //     fd.append('tags', tag.trim());
+  //   });
+
+  //   Object.keys(designs).map((key) => {
+  //     console.log(
+  //       '🚀 ~ file: AddDesignForm.js:127 ~ Object.keys ~ designs:',
+  //       designs[key]
+  //     );
+  //     fd.append('designs', designs[key]);
+
+  //     const uniqueString =
+  //       new Date().getTime() +
+  //       '-' +
+  //       Math.random().toString(36).substring(2) +
+  //       '-';
+  //     uploadImageToS3(
+  //       `api/assets/designs/${uniqueString + designs[key].name}`,
+  //       designs[key]
+  //     );
+  //   });
+
+  //   // setDisabledUplaod(true);
+
+  //   // uploadImageToS3()
+
+  //   // axiosInstance
+  //   //   .post(apiUrl + '/api/media/add-design', fd)
+  //   //   .then((res) => {
+  //   //     dispatch(
+  //   //       snackbarActions.openSnackbar({
+  //   //         severity: 'success',
+  //   //         message: 'Design Uploaded Successfully',
+  //   //       })
+  //   //     );
+
+  //   //     setDesigns([]);
+  //   //     setDesignsUrl([]);
+  //   //     setFormat('');
+  //   //     setSelectedTags([]);
+  //   //     setDisabledUplaod(false);
+  //   //   })
+  //   //   .catch((res) => {
+  //   //     console.log(res);
+  //   //     dispatch(
+  //   //       snackbarActions.openSnackbar({
+  //   //         severity: 'error',
+  //   //         message: res.data.error,
+  //   //       })
+  //   //     );
+  //   //     setDisabledUplaod(false);
+  //   //   });
+
+  //   // setDisabledUplaod(false);
+  // };
 
   return (
     <Stack
