@@ -144,7 +144,7 @@ const AddDesignForm = ({ session, token }) => {
       .post('/api/media/add-design', {
         files: designsPng,
         format,
-        tags: allTags,
+        tags: selctedTags,
         userId: session.id,
       })
       .then((res) => {

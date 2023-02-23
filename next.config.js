@@ -23,21 +23,26 @@ const nextConfig = (phase) => {
       env: {
         API_URL: 'http://localhost:8080',
         CLIENT_URL: 'http://localhost:3000',
-        S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
-        MONGODB_URL:
-          'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
-        BCRYPT_SECRET: 'mohelmyM0H3IMY',
+        S3_URL: process.env.S3_URL,
+        MONGODB_URL: process.env.MONGODB_URL,
+        BCRYPT_SECRET: process.env.BCRYPT_SECRET,
         NEXTAUTH_URL: 'http://localhost:3000',
-        NEXTAUTH_SECRET: 'mohelmyM0H3IMYmohelmyM0H3IMYmohelmyM0H3IMY',
-        GOOGLE_CLIENT_ID:
-          '1033327395893-4qvk1klp87v18mnbvpe5399srhui1ln5.apps.googleusercontent.com',
-        GOOGLE_CLIENT_SECRET: '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',
-        SENDGRID_API_KEY:
-          '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',
-        SENDGRID_FROM_EMAIL: 'engmhelmy.1990@gmail.com',
+        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+        SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
+
+        AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+        AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+        AWS_REGION: process.env.AWS_REGION,
+
+        AWS_PROFILE: process.env.AWS_PROFILE,
+        AWS_BUCKET: process.env.AWS_BUCKET,
       },
     };
   }
+
   return {
     reactStrictMode: false,
     images: {
@@ -62,36 +67,26 @@ const nextConfig = (phase) => {
       ],
     },
 
-    // env: {
-    //   API_URL: 'https://api.solo-godzilla.online',
-    //   CLIENT_URL: 'http://localhost:3000',
-    //   S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
-    //   MONGODB_URL:
-    //     'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
-    //   BCRYPT_SECRET: 'mohelmyM0H3IMY',
-    //   NEXTAUTH_URL: 'http://localhost:3000',
-    //   NEXTAUTH_SECRET: 'mohelmyM0H3IMYmohelmyM0H3IMYmohelmyM0H3IMY',
-    //   GOOGLE_CLIENT_ID:
-    //     '1033327395893-4qvk1klp87v18mnbvpe5399srhui1ln5.apps.googleusercontent.com',
-    //   GOOGLE_CLIENT_SECRET: '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',
-    //   SENDGRID_API_KEY:
-    //     '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',
-    //   SENDGRID_FROM_EMAIL: 'engmhelmy.1990@gmail.com',
-    // },
     env: {
       API_URL: 'https://api.solo-godzilla.online',
       CLIENT_URL: 'https://godzilla-shop.vercel.app',
-      S3_URL: 'https://solo-godzilla.s3.us-east-1.amazonaws.com',
-      MONGODB_URL:
-        'mongodb+srv://mohelmy:xJka4LH9GuEoF3xW@cluster0.s13ivsk.mongodb.net/godzilla2?retryWrites=true&w=majority',
-      BCRYPT_SECRET: 'mohelmyM0H3IMY',
-      NEXTAUTH_SECRET: 'mohelmyM0H3IMYmohelmyM0H3IMYmohelmyM0H3IMY',
-      GOOGLE_CLIENT_ID:
-        '1033327395893-4qvk1klp87v18mnbvpe5399srhui1ln5.apps.googleusercontent.com',
-      GOOGLE_CLIENT_SECRET: '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',
-      SENDGRID_API_KEY:
-        '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',
-      SENDGRID_FROM_EMAIL: 'engmhelmy.1990@gmail.com',
+      S3_URL: process.env.S3_URL,
+      MONGODB_URL: process.env.MONGODB_URL,
+      BCRYPT_SECRET: process.env.BCRYPT_SECRET,
+      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+
+      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+      SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
+
+      AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+      AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+      AWS_REGION: process.env.AWS_REGION,
+
+      AWS_PROFILE: process.env.AWS_PROFILE,
+      AWS_BUCKET: process.env.AWS_BUCKET,
     },
   };
 };
