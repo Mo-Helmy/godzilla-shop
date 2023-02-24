@@ -3,11 +3,6 @@
 const environment = process.env.NODE_ENV;
 console.log('🚀 ~ file: link-config.js:2 ~ environment', environment);
 
-console.log(
-  '🚀 ~ file: aws-s3.js:12 ~ process.env.AWS_REGION:',
-  process.env.AWS_REGION
-);
-
 let apiUrl = process.env.API_URL;
 console.log('🚀 ~ file: link-config.js:7 ~ apiUrl', apiUrl);
 let clientUrl = process.env.CLIENT_URL;
