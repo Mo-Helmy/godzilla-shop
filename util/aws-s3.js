@@ -6,6 +6,11 @@ const aws_secret_access_key = process.env.AWS_SECRET_ACCESS_KEY;
 const aws_bucket = process.env.AWS_BUCKET;
 console.log('🚀 ~ file: aws-s3.js:9 ~ aws_region:', aws_region);
 console.log('🚀 ~ file: aws-s3.js:12 ~ aws_bucket:', aws_bucket);
+console.log('🚀 ~ file: aws-s3.js:5 ~ aws_access_key_id:', aws_access_key_id);
+console.log(
+  '🚀 ~ file: aws-s3.js:7 ~ aws_secret_access_key:',
+  aws_secret_access_key
+);
 
 const client = new S3Client({
   region: aws_region,
