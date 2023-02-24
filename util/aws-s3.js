@@ -5,18 +5,25 @@ console.log(
   process.env.AWS_REGION
 );
 
+const aws_region = process.env.AWS_REGION;
+const aws_access_key_id = process.env.AWS_ACCESS_KEY_ID;
+const aws_secret_access_key = process.env.AWS_SECRET_ACCESS_KEY;
+const aws_bucket = process.env.AWS_BUCKET;
+console.log('🚀 ~ file: aws-s3.js:9 ~ aws_region:', aws_region);
+console.log('🚀 ~ file: aws-s3.js:12 ~ aws_bucket:', aws_bucket);
+
 const client = new S3Client({
-  region: process.env.AWS_REGION,
+  region: aws_region,
   // region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: aws_access_key_id,
+    secretAccessKey: aws_secret_access_key,
   },
 });
 
 export const uploadImageToS3 = async (key, body) => {
   const command = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET,
+    Bucket: aws_bucket,
     Key: key,
     Body: body,
     ContentType: 'image/png',
