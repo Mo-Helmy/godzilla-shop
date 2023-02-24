@@ -137,20 +137,31 @@ const AddDesignForm = ({ session, token }) => {
 
       // await uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
 
-      const signedUrl = await getS3SignedUrl(
-        `api/assets/designs/${fileName}`,
-        designs[key]
-      );
+      // const signedUrl = await getS3SignedUrl(
+      //   `api/assets/designs/${fileName}`,
+      //   designs[key]
+      // );
 
       axios
-        .put(signedUrl, designs[key], {
-          headers: { 'Content-Type': 'image/png' },
+        .post('/api/signed-url', {
+          key: `api/assets/designs/${fileName}`,
+          image: designs[key],
         })
         .then((res) => {
-          console.log('uploaded seccessfully', res);
-        })
-        .catch((err) => {
-          console.log('error uploading:', err);
+          console.log(
+            '🚀 ~ file: AddDesignForm.js:149 ~ Object.keys ~ res:',
+            res.data
+          );
+          axios
+            .put(res.data.signedUrl, designs[key], {
+              headers: { 'Content-Type': 'image/png' },
+            })
+            .then((res) => {
+              console.log('uploaded seccessfully', res);
+            })
+            .catch((err) => {
+              console.log('error uploading:', err);
+            });
         });
     });
 
