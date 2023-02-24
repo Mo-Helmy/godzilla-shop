@@ -68,10 +68,8 @@ const nextConfig = (phase) => {
     },
 
     env: {
-      // API_URL: 'https://api.solo-godzilla.online',
-      // CLIENT_URL: 'https://godzilla-shop.vercel.app',
-      API_URL: 'http://localhost:8080',
-      CLIENT_URL: 'http://localhost:3000',
+      API_URL: 'https://api.solo-godzilla.online',
+      CLIENT_URL: 'https://godzilla-shop.vercel.app',
       S3_URL: process.env.S3_URL,
       MONGODB_URL: process.env.MONGODB_URL,
       BCRYPT_SECRET: process.env.BCRYPT_SECRET,
