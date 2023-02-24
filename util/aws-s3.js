@@ -1,10 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-console.log(
-  '🚀 ~ file: aws-s3.js:12 ~ process.env.AWS_REGION:',
-  process.env.AWS_REGION
-);
-
 const aws_region = process.env.AWS_REGION;
 const aws_access_key_id = process.env.AWS_ACCESS_KEY_ID;
 const aws_secret_access_key = process.env.AWS_SECRET_ACCESS_KEY;
