@@ -1,4 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const aws_region = process.env.AWS_REGION;
 const aws_access_key_id = process.env.AWS_ACCESS_KEY_ID;
@@ -39,4 +40,17 @@ export const uploadImageToS3 = async (key, body) => {
       '/' +
       key
   );
+};
+
+export const getS3SignedUrl = async (key, body) => {
+  const command = new PutObjectCommand({
+    Bucket: aws_bucket,
+    Key: key,
+    Body: body,
+    ContentType: 'image/png',
+  });
+
+  const signedUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
+
+  return signedUrl;
 };

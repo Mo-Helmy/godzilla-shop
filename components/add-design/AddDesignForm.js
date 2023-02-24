@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl } from '../../util/link-config';
 import axiosInstance from '../../util/axiosInstance';
-import { uploadImageToS3 } from '../../util/aws-s3';
+import { getS3SignedUrl, uploadImageToS3 } from '../../util/aws-s3';
 import axios from 'axios';
 
 const AddDesignForm = ({ session, token }) => {
@@ -135,7 +135,23 @@ const AddDesignForm = ({ session, token }) => {
 
       designsPng.push({ fileName, title });
 
-      await uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
+      // await uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
+
+      const signedUrl = await getS3SignedUrl(
+        `api/assets/designs/${fileName}`,
+        designs[key]
+      );
+
+      axios
+        .put(signedUrl, designs[key], {
+          headers: { 'Content-Type': 'image/png' },
+        })
+        .then((res) => {
+          console.log('uploaded seccessfully', res);
+        })
+        .catch((err) => {
+          console.log('error uploading:', err);
+        });
     });
 
     setDisabledUplaod(true);
