@@ -1,5 +1,9 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-// import config from './env-config';
+
+console.log(
+  '🚀 ~ file: aws-s3.js:12 ~ process.env.AWS_REGION:',
+  process.env.AWS_REGION
+);
 
 const client = new S3Client({
   region: process.env.AWS_REGION,

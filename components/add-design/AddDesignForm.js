@@ -118,7 +118,7 @@ const AddDesignForm = ({ session, token }) => {
     let designsPng = [];
 
     //upload designs to aws S3
-    Object.keys(designs).map((key) => {
+    Object.keys(designs).map(async (key) => {
       console.log(
         '🚀 ~ file: AddDesignForm.js:127 ~ Object.keys ~ designs:',
         designs[key]
@@ -135,7 +135,7 @@ const AddDesignForm = ({ session, token }) => {
 
       designsPng.push({ fileName, title });
 
-      uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
+      await uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
     });
 
     setDisabledUplaod(true);
