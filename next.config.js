@@ -35,8 +35,8 @@ const nextConfig = (phase) => {
 
         AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
         AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-        AWS_REGION: process.env.AWS_REGION,
 
+        AWS_REGION: process.env.AWS_REGION,
         AWS_PROFILE: process.env.AWS_PROFILE,
         AWS_BUCKET: process.env.AWS_BUCKET,
       },
@@ -68,8 +68,10 @@ const nextConfig = (phase) => {
     },
 
     env: {
-      API_URL: 'https://api.solo-godzilla.online',
-      CLIENT_URL: 'https://godzilla-shop.vercel.app',
+      // API_URL: 'https://api.solo-godzilla.online',
+      // CLIENT_URL: 'https://godzilla-shop.vercel.app',
+      API_URL: 'http://localhost:8080',
+      CLIENT_URL: 'http://localhost:3000',
       S3_URL: process.env.S3_URL,
       MONGODB_URL: process.env.MONGODB_URL,
       BCRYPT_SECRET: process.env.BCRYPT_SECRET,
