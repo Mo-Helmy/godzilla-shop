@@ -14,12 +14,15 @@ import { useDispatch } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl } from '../../util/link-config';
 import axiosInstance from '../../util/axiosInstance';
-import { getS3SignedUrl, uploadImageToS3 } from '../../util/aws-s3';
 import axios from 'axios';
 
 const AddDesignForm = ({ session, token }) => {
   const [designsUrl, setDesignsUrl] = useState([]);
   const [designs, setDesigns] = useState([]);
+  console.log(
+    '🚀 ~ file: AddDesignForm.js:22 ~ AddDesignForm ~ designs:',
+    designs
+  );
   const [format, setFormat] = useState('');
   const [selctedTags, setSelectedTags] = useState([]);
   const [allTags, setAllTags] = useState([]);
@@ -89,12 +92,14 @@ const AddDesignForm = ({ session, token }) => {
 
       reader.onload = (e) =>
         setDesignsUrl((prev) => prev.concat(e.target.result));
+
+      setDesigns((prev) => prev.concat(e.target.files[key]));
     });
 
-    setDesigns(e.target.files);
+    // setDesigns(e.target.files);
   };
 
-  const uploadHandler = () => {
+  const uploadHandler = async () => {
     if (error.designs) return;
     if (!format) {
       setError((prev) => ({ ...prev, format: 'please select a valid format' }));
@@ -117,55 +122,88 @@ const AddDesignForm = ({ session, token }) => {
 
     let designsPng = [];
 
+    // setDisabledUplaod(true);
+
     //upload designs to aws S3
-    Object.keys(designs).map(async (key) => {
+    for (let design of designs) {
       console.log(
-        '🚀 ~ file: AddDesignForm.js:127 ~ Object.keys ~ designs:',
-        designs[key]
+        '🚀 ~ file: AddDesignForm.js:129 ~ uploadHandler ~ design:',
+        design
       );
 
-      const fileName =
-        new Date().getTime() +
-        '-' +
-        Math.random().toString(36).substring(2) +
-        '-' +
-        designs[key].name.replaceAll(' ', '-');
+      try {
+        const fileName =
+          new Date().getTime() +
+          '-' +
+          Math.random().toString(36).substring(2) +
+          '-' +
+          design.name.replaceAll(' ', '-');
 
-      const title = designs[key].name.split('.')[0];
+        const title = design.name.split('.')[0];
 
-      designsPng.push({ fileName, title });
+        designsPng.push({ fileName, title });
 
-      // await uploadImageToS3(`api/assets/designs/${fileName}`, designs[key]);
-
-      // const signedUrl = await getS3SignedUrl(
-      //   `api/assets/designs/${fileName}`,
-      //   designs[key]
-      // );
-
-      axios
-        .post('/api/signed-url', {
+        const signedUrlResponse = await axios.post('/api/signed-url', {
           key: `api/assets/designs/${fileName}`,
-          image: designs[key],
-        })
-        .then((res) => {
-          console.log(
-            '🚀 ~ file: AddDesignForm.js:149 ~ Object.keys ~ res:',
-            res.data
-          );
-          axios
-            .put(res.data.signedUrl, designs[key], {
-              headers: { 'Content-Type': 'image/png' },
-            })
-            .then((res) => {
-              console.log('uploaded seccessfully', res);
-            })
-            .catch((err) => {
-              console.log('error uploading:', err);
-            });
+          image: design,
         });
-    });
 
-    setDisabledUplaod(true);
+        const response = await axios.put(
+          signedUrlResponse.data.signedUrl,
+          design,
+          {
+            headers: { 'Content-Type': 'image/png' },
+          }
+        );
+
+        console.log('uploaded seccessfully', response);
+      } catch (error) {
+        console.log('error uploading:', error);
+      }
+    }
+
+    console.log(designsPng);
+
+    // //upload designs to aws S3
+    // Object.keys(designs).map(async (key) => {
+    //   console.log(
+    //     '🚀 ~ file: AddDesignForm.js:127 ~ Object.keys ~ designs:',
+    //     designs[key]
+    //   );
+
+    //   const fileName =
+    //     new Date().getTime() +
+    //     '-' +
+    //     Math.random().toString(36).substring(2) +
+    //     '-' +
+    //     designs[key].name.replaceAll(' ', '-');
+
+    //   const title = designs[key].name.split('.')[0];
+
+    //   designsPng.push({ fileName, title });
+
+    //   axios
+    //     .post('/api/signed-url', {
+    //       key: `api/assets/designs/${fileName}`,
+    //       image: designs[key],
+    //     })
+    //     .then((res) => {
+    //       console.log(
+    //         '🚀 ~ file: AddDesignForm.js:149 ~ Object.keys ~ res:',
+    //         res.data
+    //       );
+    //       axios
+    //         .put(res.data.signedUrl, designs[key], {
+    //           headers: { 'Content-Type': 'image/png' },
+    //         })
+    //         .then((res) => {
+    //           console.log('uploaded seccessfully', res);
+    //         })
+    //         .catch((err) => {
+    //           console.log('error uploading:', err);
+    //         });
+    //     });
+    // });
 
     axiosInstance
       .post('/api/media/add-design', {

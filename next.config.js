@@ -48,16 +48,9 @@ const nextConfig = (phase) => {
     images: {
       remotePatterns: [
         {
-          protocol: 'http',
-          hostname: 'localhost',
-          port: '4000',
-          pathname: '/api/**/*',
-        },
-        {
           protocol: 'https',
           hostname: 'api.solo-godzilla.online',
-          port: '443',
-          pathname: '/api/**/*',
+          pathname: '/**/*',
         },
         {
           protocol: 'https',

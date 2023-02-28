@@ -17,6 +17,7 @@ import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl } from '../../util/link-config';
 import axiosInstance, { axiosApiAuth } from '../../util/axiosInstance';
 import ColorsButtonGroup from '../products/ProductDetails/ColorsButtonGroup';
+import axios from 'axios';
 
 const colorsArr = ['black', 'blue', 'gray', 'red', 'green', 'white'];
 
@@ -24,38 +25,117 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
   const [productType, setProductType] = useState('');
   const [selectedColors, setSelectedColors] = useState([]);
   const [imagesUrl, setImagesUrl] = useState([]);
+  console.log(
+    '🚀 ~ file: AddProductForm.js:28 ~ AddProductForm ~ imagesUrl:',
+    imagesUrl
+  );
   const [size, setSize] = useState(100);
-  console.log('🚀 ~ file: AddProductForm.js:34 ~ AddProductForm ~ size', size);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const [removeColor, setRemoveColor] = useState(false);
 
   const dispatch = useDispatch();
 
   console.log(design._id);
   console.log({ session });
 
-  const changeSelectedColorsHandler = (e, newValue) => {
+  // const changeSelectedColorsHandler = (e, newValue) => {
+  //   setErrorMsg('');
+  //   if (!productType) return setErrorMsg('Please select product type!');
+  //   if (newValue.length < selectedColors.length) {
+  //     console.log('=========REMOVE COLOR=============');
+  //     setRemoveColor(true);
+  //     selectedColors.map((sColor, sIndex) => {
+  //       if (!newValue.includes(sColor)) {
+  //         console.log(
+  //           '🚀 ~ file: AddProductForm.js:47 ~ selectedColors.map ~ sColor:',
+  //           sColor,
+  //           sIndex
+  //         );
+  //         setImagesUrl((prev) =>
+  //           prev.slice(0, sIndex).concat(prev.slice(sIndex + 1))
+  //         );
+  //       }
+  //     });
+  //   } else {
+  //     setRemoveColor(false);
+  //   }
+  //   setSelectedColors(newValue);
+  // };
+
+  const changeSelectedColorsHandler = async (e, newValue) => {
+    console.log(
+      '🚀 ~ file: AddProductForm.js:39 ~ changeSelectedColorsHandler ~ newValue:',
+      newValue
+    );
     setErrorMsg('');
     if (!productType) return setErrorMsg('Please select product type!');
 
-    setSelectedColors(newValue);
     const fileName = design.fileName.split('.')[0];
-    const imagesUrlArr = newValue.map(
-      (color) =>
+    let imagesUrlArr = [];
+
+    newValue.map((color) => {
+      imagesUrlArr.push(
         `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
-    );
+      );
+    });
 
     setImagesUrl(imagesUrlArr);
+    setSelectedColors(newValue);
   };
 
   const changeSizeHandler = (e, n) => {
     setSize(n);
   };
 
+  // useEffect(() => {
+  //   const fileName = design.fileName.split('.')[0];
+  //   const color = selectedColors[selectedColors.length - 1];
+  //   if (selectedColors.length === 0) return;
+  //   if (removeColor) return;
+  //   axios
+  //     .get(
+  //       `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`,
+  //       { responseType: 'blob' }
+  //     )
+  //     .then((response) => {
+  //       // const reader = new FileReader();
+  //       // reader.readAsDataURL(response.data);
+  //       // reader.onload = (ev) => {
+  //       //   console.log('🚀 ~ file: AddProductForm.js:55 ~ .then ~ ev:', ev);
+  //       //   setImagesUrl((prev) => prev.concat(ev.target.result));
+  //       // };
+
+  //       const objectUrl = URL.createObjectURL(response.data);
+  //       setImagesUrl((prev) => prev.concat(objectUrl));
+  //     });
+  // }, [selectedColors, removeColor]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log('🚀 ~ file: AddProductForm.js:67 ~ timer ~ size', size);
       const fileName = design.fileName.split('.')[0];
+      // let imagesUrlArr = [];
+      // selectedColors.map(async (color, index) => {
+      //   console.log(
+      //     '🚀 ~ file: AddProductForm.js:142 ~ selectedColors.map ~ index:',
+      //     index
+      //   );
+      //   const response = await axios.get(
+      //     `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`,
+      //     { responseType: 'blob' }
+      //   );
+      //   const objectUrl = URL.createObjectURL(response.data);
+      //   imagesUrlArr.push(objectUrl);
+      //   if (index === selectedColors.length - 1) {
+      //     console.log(
+      //       '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
+      //       imagesUrlArr
+      //     );
+      //     setImagesUrl(imagesUrlArr);
+      //   }
+      // });
+
       const imagesUrlArr = selectedColors.map(
         (color) =>
           `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
@@ -179,9 +259,9 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
 
       <Stack direction="row" flexWrap="wrap" gap={2} justifyContent="center">
         {imagesUrl.length > 0 &&
-          imagesUrl.map((imageurl) => (
+          imagesUrl.map((imageurl, index) => (
             <Image
-              key={imageurl}
+              key={index}
               src={imageurl}
               width={300}
               height={300}
