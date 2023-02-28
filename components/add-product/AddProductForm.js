@@ -266,7 +266,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
               width={300}
               height={300}
               alt={design.title}
-              priority
+              loading="eager"
             />
           ))}
       </Stack>
