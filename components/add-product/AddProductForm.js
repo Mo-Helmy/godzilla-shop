@@ -26,18 +26,11 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
   const [productType, setProductType] = useState('');
   const [selectedColors, setSelectedColors] = useState([]);
   const [imagesUrl, setImagesUrl] = useState([]);
-  console.log(
-    '🚀 ~ file: AddProductForm.js:28 ~ AddProductForm ~ imagesUrl:',
-    imagesUrl
-  );
   const [size, setSize] = useState(100);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmiting, setIsSubmiting] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(
-    '🚀 ~ file: AddProductForm.js:37 ~ AddProductForm ~ loading:',
-    loading
-  );
+  const [progress, setProgress] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -53,36 +46,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
     if (!productType) return setErrorMsg('Please select product type!');
     if (loading) return;
 
-    const fileName = design.fileName.split('.')[0];
-
-    (async () => {
-      setLoading(true);
-      let imagesUrlArr = [];
-      for (let index = 0; index < newValue.length; index++) {
-        const response = await axios.get(
-          `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${newValue[index]}&size=${size}`,
-          { responseType: 'blob' }
-        );
-        const objectUrl = URL.createObjectURL(response.data);
-        imagesUrlArr.push(objectUrl);
-        if (index === newValue.length - 1) {
-          setImagesUrl(imagesUrlArr);
-          setSelectedColors(newValue);
-        }
-      }
-      setLoading(false);
-    })();
-
-    // let imagesUrlArr = [];
-
-    // newValue.map((color) => {
-    //   imagesUrlArr.push(
-    //     `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
-    //   );
-    // });
-
-    // setImagesUrl(imagesUrlArr);
-    // setSelectedColors(newValue);
+    setSelectedColors(newValue);
   };
 
   const changeSizeHandler = (e, n) => {
@@ -90,45 +54,54 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
     setSize(n);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      console.log('🚀 ~ file: AddProductForm.js:67 ~ timer ~ size', size);
-      const fileName = design.fileName.split('.')[0];
+  const previewHandler = () => {
+    setErrorMsg('');
+    if (!productType) return setErrorMsg('Please select product type!');
+    if (selectedColors.length === 0) return setErrorMsg('Please select color!');
+    if (loading) return;
 
-      (async () => {
-        setLoading(true);
-        let imagesUrlArr = [];
-        for (let index = 0; index < selectedColors.length; index++) {
-          const response = await axios.get(
-            `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
-            { responseType: 'blob', onDownloadProgress: (e) => {} }
-          );
-          const objectUrl = URL.createObjectURL(response.data);
-          imagesUrlArr.push(objectUrl);
-          console.log('=========1111==========');
-          if (index === selectedColors.length - 1) {
-            console.log('=========2222==========');
-            console.log(
-              '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
-              imagesUrlArr
-            );
-            setImagesUrl(imagesUrlArr);
+    const fileName = design.fileName.split('.')[0];
+    (async () => {
+      setLoading(true);
+      let imagesUrlArr = [];
+      setProgress(0);
+      for (let index = 0; index < selectedColors.length; index++) {
+        const response = await axios.get(
+          `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
+          {
+            responseType: 'blob',
+            onDownloadProgress: (progressEvent) => {
+              let percentCompleted = Math.round(
+                ((progressEvent.loaded * 100) / progressEvent.total) *
+                  ((index + 1) / selectedColors.length)
+              );
+              setProgress(percentCompleted);
+              console.log(
+                '🚀 ~ file: AddProductForm.js:143 ~ percentCompleted:',
+                percentCompleted
+              );
+            },
           }
+        );
+        console.log(
+          '🚀 ~ file: AddProductForm.js:159 ~ response.data:',
+          response.data
+        );
+        const objectUrl = URL.createObjectURL(response.data);
+        imagesUrlArr.push(objectUrl);
+        console.log('=========1111==========');
+        if (index === selectedColors.length - 1) {
+          console.log('=========2222==========');
+          console.log(
+            '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
+            imagesUrlArr
+          );
+          setImagesUrl(imagesUrlArr);
         }
-        setLoading(false);
-      })();
-
-      // const imagesUrlArr = selectedColors.map(
-      //   (color) =>
-      //     `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
-      // );
-
-      // setImagesUrl(imagesUrlArr);
-    }, 1500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [size]);
+      }
+      setLoading(false);
+    })();
+  };
 
   const submitHandler = async () => {
     const imagesUrlArr = selectedColors.map(
@@ -237,7 +210,20 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
             ]}
           />
         </Box>
-        {loading && <LinearProgress sx={{ width: 300 }} />}
+
+        {loading && (
+          <Box sx={{ display: 'flex', alignItems: 'center', width: 300 }}>
+            <Box sx={{ width: '100%', mr: 1 }}>
+              <LinearProgress variant="determinate" value={progress} />
+            </Box>
+            <Box sx={{ minWidth: 35 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >{`${progress}%`}</Typography>
+            </Box>
+          </Box>
+        )}
       </Stack>
 
       <Stack direction="row" flexWrap="wrap" gap={2} justifyContent="center">
@@ -254,15 +240,31 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
           ))}
       </Stack>
 
-      <Button
-        variant="contained"
-        color="secondary"
-        style={{ width: 'fit-content', borderRadius: 9999 }}
-        disabled={!productType || selectedColors.length === 0 || isSubmiting}
-        onClick={submitHandler}
-      >
-        {isSubmiting ? 'sending' : 'Add Product'}
-      </Button>
+      <Stack direction="row" justifyContent="space-between" width={300}>
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ width: 'fit-content', borderRadius: 9999 }}
+          disabled={!productType || selectedColors.length === 0 || loading}
+          onClick={previewHandler}
+        >
+          {loading ? 'loading' : 'Preview'}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          style={{ width: 'fit-content', borderRadius: 9999 }}
+          disabled={
+            !productType ||
+            selectedColors.length === 0 ||
+            imagesUrl.length === 0 ||
+            isSubmiting
+          }
+          onClick={submitHandler}
+        >
+          {isSubmiting ? 'sending' : 'Add Product'}
+        </Button>
+      </Stack>
     </Stack>
   );
 };
