@@ -73,7 +73,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
             onDownloadProgress: (progressEvent) => {
               let percentCompleted = Math.round(
                 ((progressEvent.loaded * 100) / progressEvent.total) *
-                  ((index + 1) / selectedColors.length) +
+                  (1 / selectedColors.length) +
                   (index * 100) / selectedColors.length
               );
               setProgress(percentCompleted);
