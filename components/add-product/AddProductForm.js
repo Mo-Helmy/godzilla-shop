@@ -115,33 +115,34 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
     const timer = setTimeout(() => {
       console.log('🚀 ~ file: AddProductForm.js:67 ~ timer ~ size', size);
       const fileName = design.fileName.split('.')[0];
-      // let imagesUrlArr = [];
-      // selectedColors.map(async (color, index) => {
-      //   console.log(
-      //     '🚀 ~ file: AddProductForm.js:142 ~ selectedColors.map ~ index:',
-      //     index
-      //   );
-      //   const response = await axios.get(
-      //     `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`,
-      //     { responseType: 'blob' }
-      //   );
-      //   const objectUrl = URL.createObjectURL(response.data);
-      //   imagesUrlArr.push(objectUrl);
-      //   if (index === selectedColors.length - 1) {
-      //     console.log(
-      //       '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
-      //       imagesUrlArr
-      //     );
-      //     setImagesUrl(imagesUrlArr);
-      //   }
-      // });
 
-      const imagesUrlArr = selectedColors.map(
-        (color) =>
-          `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
-      );
+      (async () => {
+        let imagesUrlArr = [];
+        for (let index = 0; index < selectedColors.length; index++) {
+          const response = await axios.get(
+            `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
+            { responseType: 'blob' }
+          );
+          const objectUrl = URL.createObjectURL(response.data);
+          imagesUrlArr.push(objectUrl);
+          console.log('=========1111==========');
+          if (index === selectedColors.length - 1) {
+            console.log('=========2222==========');
+            console.log(
+              '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
+              imagesUrlArr
+            );
+            setImagesUrl(imagesUrlArr);
+          }
+        }
+      })();
 
-      setImagesUrl(imagesUrlArr);
+      // const imagesUrlArr = selectedColors.map(
+      //   (color) =>
+      //     `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${color}&size=${size}`
+      // );
+
+      // setImagesUrl(imagesUrlArr);
     }, 1500);
     return () => {
       clearTimeout(timer);
@@ -266,7 +267,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
               width={300}
               height={300}
               alt={design.title}
-              loading="eager"
+              priority
             />
           ))}
       </Stack>
