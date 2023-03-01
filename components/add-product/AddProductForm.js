@@ -64,7 +64,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
     (async () => {
       setLoading(true);
       let imagesUrlArr = [];
-      setProgress(0);
+
       for (let index = 0; index < selectedColors.length; index++) {
         const response = await axios.get(
           `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
@@ -73,7 +73,8 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
             onDownloadProgress: (progressEvent) => {
               let percentCompleted = Math.round(
                 ((progressEvent.loaded * 100) / progressEvent.total) *
-                  ((index + 1) / selectedColors.length)
+                  ((index + 1) / selectedColors.length) +
+                  (index * 100) / selectedColors.length
               );
               setProgress(percentCompleted);
               console.log(
