@@ -5,12 +5,13 @@ import AddDesignAndProductProcess from '../../components/add-product/AddDesignAn
 import { axiosApi } from '../../util/axiosInstance';
 import { authOptions } from '../api/auth/[...nextauth]';
 
-const AddProductPage = ({ session, token, designsList }) => {
+const AddProductPage = ({ session, token, designsList, pagesCount }) => {
   return (
     <AddDesignAndProductProcess
       session={session}
       token={token}
       designsList={designsList}
+      pagesCount={pagesCount}
     />
   );
 };
@@ -40,12 +41,22 @@ export const getServerSideProps = async ({ req, res, query }) => {
       },
     };
   try {
-    const response = await axiosApi.get(`/api/media/design/${query.userId}`, {
-      headers: { Authorization: token },
-    });
+    const pageSize = query.ps || 10;
+    const page = query.p || 1;
+    const response = await axiosApi.get(
+      `/api/media/design/${query.userId}?ps=${pageSize}&p=${page}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
 
     return {
-      props: { session, token, designsList: response.data },
+      props: {
+        session,
+        token,
+        designsList: response.data.designs,
+        pagesCount: Math.ceil(response.data.designsCount / pageSize),
+      },
     };
   } catch (error) {
     return {

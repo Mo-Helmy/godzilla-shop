@@ -38,10 +38,6 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
   console.log({ session });
 
   const changeSelectedColorsHandler = (e, newValue) => {
-    console.log(
-      '🚀 ~ file: AddProductForm.js:39 ~ changeSelectedColorsHandler ~ newValue:',
-      newValue
-    );
     setErrorMsg('');
     if (!productType) return setErrorMsg('Please select product type!');
     if (loading) return;
@@ -63,43 +59,37 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
     const fileName = design.fileName.split('.')[0];
     (async () => {
       setLoading(true);
-      let imagesUrlArr = [];
+      setImagesUrl([]);
 
-      for (let index = 0; index < selectedColors.length; index++) {
-        const response = await axios.get(
-          `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
-          {
-            responseType: 'blob',
-            onDownloadProgress: (progressEvent) => {
-              let percentCompleted = Math.round(
-                ((progressEvent.loaded * 100) / progressEvent.total) *
-                  (1 / selectedColors.length) +
-                  (index * 100) / selectedColors.length
-              );
-              setProgress(percentCompleted);
-              console.log(
-                '🚀 ~ file: AddProductForm.js:143 ~ percentCompleted:',
-                percentCompleted
-              );
-            },
-          }
-        );
-        console.log(
-          '🚀 ~ file: AddProductForm.js:159 ~ response.data:',
-          response.data
-        );
-        const objectUrl = URL.createObjectURL(response.data);
-        imagesUrlArr.push(objectUrl);
-        console.log('=========1111==========');
-        if (index === selectedColors.length - 1) {
-          console.log('=========2222==========');
-          console.log(
-            '🚀 ~ file: AddProductForm.js:61 ~ timer ~ imagesUrlArr:',
-            imagesUrlArr
+      try {
+        for (let index = 0; index < selectedColors.length; index++) {
+          const response = await axios.get(
+            `${apiUrl}/api/media/preview?design=${fileName}&type=${productType}&color=${selectedColors[index]}&size=${size}`,
+            {
+              responseType: 'blob',
+              onDownloadProgress: (progressEvent) => {
+                let percentCompleted = Math.round(
+                  ((progressEvent.loaded * 100) / progressEvent.total) *
+                    (1 / selectedColors.length) +
+                    (index * 100) / selectedColors.length
+                );
+                setProgress(percentCompleted);
+              },
+            }
           );
-          setImagesUrl(imagesUrlArr);
+
+          const objectUrl = URL.createObjectURL(response.data);
+          setImagesUrl((prev) => prev.concat(objectUrl));
         }
+      } catch (error) {
+        dispatch(
+          snackbarActions.openSnackbar({
+            severity: 'error',
+            message: `Image Processing Failed: ${error}`,
+          })
+        );
       }
+
       setLoading(false);
     })();
   };
@@ -146,7 +136,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
         dispatch(
           snackbarActions.openSnackbar({
             severity: 'error',
-            message: 'Something Went Wrong!',
+            message: 'Add New Product Failed!',
           })
         )
       )
@@ -258,7 +248,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
           disabled={
             !productType ||
             selectedColors.length === 0 ||
-            imagesUrl.length === 0 ||
+            // imagesUrl.length === 0 ||
             isSubmiting
           }
           onClick={submitHandler}

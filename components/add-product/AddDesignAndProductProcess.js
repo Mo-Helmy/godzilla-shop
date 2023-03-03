@@ -5,7 +5,12 @@ import DesignList from './DesignList';
 
 const steps = ['Select Design', 'Add New Product'];
 
-const AddDesignAndProductProcess = ({ session, token, designsList }) => {
+const AddDesignAndProductProcess = ({
+  session,
+  token,
+  designsList,
+  pagesCount,
+}) => {
   const [activeStep, setActiveStep] = useState(0);
   const [design, setDesign] = useState(null);
 
@@ -31,6 +36,7 @@ const AddDesignAndProductProcess = ({ session, token, designsList }) => {
           session={session}
           token={token}
           designsList={designsList}
+          pagesCount={pagesCount}
         />
       )}
 

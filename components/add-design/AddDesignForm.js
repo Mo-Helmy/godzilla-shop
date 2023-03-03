@@ -122,7 +122,7 @@ const AddDesignForm = ({ session, token }) => {
 
     let designsPng = [];
 
-    // setDisabledUplaod(true);
+    setDisabledUplaod(true);
 
     //upload designs to aws S3
     for (let design of designs) {
@@ -429,7 +429,7 @@ const AddDesignForm = ({ session, token }) => {
         onClick={uploadHandler}
         disabled={disabledUplaod}
       >
-        Upload
+        {disabledUplaod ? 'Sending' : 'Upload'}
       </Button>
     </Stack>
   );
