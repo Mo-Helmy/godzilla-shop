@@ -10,8 +10,13 @@ export default async (req, res) => {
     const jwt = await getToken({ req, raw: true });
     console.log('🚀 ~ file: get-token.js:10 ~ jwt', jwt);
 
-    res.status(200).json({ user, jwt });
+    if (user && jwt) {
+      res.status(200).json({ user, jwt });
+    } else {
+      res.json({ message: 'user not found' });
+    }
   } catch (error) {
-    res.status(404).json({ message: 'user not found' });
+    console.log('🚀 ~ file: get-token.js:20 ~ error:', error);
+    // res.status(404).json({ message: 'user not found' });
   }
 };
