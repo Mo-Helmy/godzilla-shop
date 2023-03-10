@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
 import React from 'react';
 import AddDesignAndProductProcess from '../../components/add-product/AddDesignAndProductProcess';
+import Layout from '../../components/layout/Layout';
 import { axiosApi } from '../../util/axiosInstance';
 import { authOptions } from '../api/auth/[...nextauth]';
 

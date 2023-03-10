@@ -1,34 +1,48 @@
-import { Alert, Box, Container, Snackbar } from '@mui/material';
-import React, { useState } from 'react';
+import { Alert, Box, Container, Divider, Snackbar } from '@mui/material';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
 import Navigation from './Navigation';
+import NavigationUpper from './navigationUpper';
 
 const Layout = (props) => {
-  const [showSearchField, setShowSearchField] = useState(false);
   const snackbarState = useSelector((state) => state.snackbar);
+  console.log(
+    '🚀 ~ file: Layout.js:10 ~ Layout ~ snackbarState:',
+    snackbarState
+  );
   const dispatch = useDispatch();
-
-  const showSearchFieldHandler = () => {
-    setShowSearchField(true);
-  };
-  const closeSearchFieldHandler = () => {
-    setShowSearchField(false);
-  };
-
   return (
     <Box
       width="100vw"
-      minHeight="100vh"
       bgcolor="background.default"
       color="text.primary"
+      // position="relative"
+      height="100vh"
+      sx={{ overflowY: 'auto' }}
+      onScroll={(e) => {
+        // console.log('clientHeight========', e.target.clientHeight);
+        // console.log('scrollHeight========', e.target.scrollHeight);
+        // console.log('scrollTop========', e.currentTarget.scrollTop);
+
+        const { clientHeight, scrollHeight, scrollTop } = e.currentTarget;
+        // console.log('----', scrollHeight - scrollTop);
+
+        if (scrollHeight - scrollTop < clientHeight + 100) {
+          console.log('########################=====DONE=========');
+          dispatch(snackbarActions.setIsBottom(true));
+        }
+      }}
     >
+      <NavigationUpper />
+      <Navigation />
+      {/* <Divider />
       <Navigation
         onshowSearchField={showSearchFieldHandler}
         onCloseSearchField={closeSearchFieldHandler}
         showSearchField={showSearchField}
-      />
-      <Container onClick={closeSearchFieldHandler} sx={{ minHeight: '100vh' }}>
+      /> */}
+      <Container sx={{ minHeight: '100vh' }}>
         {props.children}
 
         <Snackbar

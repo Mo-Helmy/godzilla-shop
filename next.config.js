@@ -21,12 +21,12 @@ const nextConfig = (phase) => {
         ],
       },
       env: {
-        API_URL: 'http://localhost:8080',
-        CLIENT_URL: 'http://localhost:3000',
+        API_URL: process.env.API_URL,
+        CLIENT_URL: process.env.CLIENT_URL,
         S3_URL: process.env.S3_URL,
         MONGODB_URL: process.env.MONGODB_URL,
         BCRYPT_SECRET: process.env.BCRYPT_SECRET,
-        NEXTAUTH_URL: 'http://localhost:3000',
+        NEXTAUTH_URL: process.env.CLIENT_URL,
         NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
         GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
@@ -61,8 +61,10 @@ const nextConfig = (phase) => {
     },
 
     env: {
-      API_URL: 'https://api.solo-godzilla.online',
-      CLIENT_URL: 'https://godzilla-shop.vercel.app',
+      API_URL: process.env.API_URL,
+      // API_URL: 'https://api.solo-godzilla.online',
+      CLIENT_URL: process.env.CLIENT_URL,
+      // CLIENT_URL: 'https://godzilla-shop.vercel.app',
       S3_URL: process.env.S3_URL,
       MONGODB_URL: process.env.MONGODB_URL,
       BCRYPT_SECRET: process.env.BCRYPT_SECRET,

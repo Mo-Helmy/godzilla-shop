@@ -1,3 +1,11 @@
+import { Container, Stack } from '@mui/material';
+import Categories from '../components/landing-sec/Categories';
+import HoodieCategorySec from '../components/landing-sec/HoodieCategorySec';
+import ImagesSec from '../components/landing-sec/ImagesSec';
+import LandingSec from '../components/landing-sec/LandingSec';
+import TshirtCategorySec from '../components/landing-sec/TshirtCategorySec';
+// import Layout from '../components/layout/Layout';
+// import LayoutHomePage from '../components/layout/LayoutHomePage';
 import ProductList from '../components/products/ProductList';
 import { favoriteActions } from '../store/favoriteSlice';
 import axiosInstance, { axiosApi } from '../util/axiosInstance';
@@ -5,9 +13,14 @@ import { apiUrl } from '../util/link-config';
 
 export default function Home({ products, user, jwt }) {
   return (
-    <>
-      <ProductList products={products} />
-    </>
+    <Stack>
+      <LandingSec />
+      <Categories />
+      <TshirtCategorySec products={products} />
+      {/* <ProductList products={products} /> */}
+      <ImagesSec />
+      <HoodieCategorySec />
+    </Stack>
   );
 }
 

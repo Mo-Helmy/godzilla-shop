@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { axiosApi } from '../../../util/axiosInstance';
+import ProductListSlider from '../../landing-sec/TshirtCategorySec/productListSlider';
 import ShopProductList from '../../shop/ShopProductList';
 import ProductList from '../ProductList';
 
@@ -39,11 +40,13 @@ const RelatedProducts = ({ type, tags, excludeId }) => {
   return (
     <Stack>
       <Typography fontWeight="bold">Related Products:</Typography>
-      <ShopProductList
+      {/* <ShopProductList
         productList={products}
         productCount={productCount}
         onShowMore={showmoreHandler}
-      />
+        width={250}
+      /> */}
+      <ProductListSlider products={products} />
     </Stack>
   );
 };

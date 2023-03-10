@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
 import React from 'react';
 import AddDesignForm from '../../components/add-design/AddDesignForm';
+import Layout from '../../components/layout/Layout';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 const AddDesignPage = ({ session, token }) => {

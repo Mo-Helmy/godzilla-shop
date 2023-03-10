@@ -15,8 +15,8 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
@@ -206,17 +206,16 @@ const ProductDetails = ({ product }) => {
                   right: '0.02rem',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: theme.palette.background.default,
-                  opacity: 0.5,
-                  color: 'inherit',
+                  bgcolor: 'background.default',
                   '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    opacity: 1,
+                    color: 'primary.dark',
+                    bgcolor: 'background.default',
                   },
                 }}
+                color="primary"
                 onClick={slideRightHandler}
               >
-                <KeyboardArrowRightIcon />
+                <ArrowForwardIosIcon />
               </IconButton>
               <IconButton
                 sx={{
@@ -224,32 +223,29 @@ const ProductDetails = ({ product }) => {
                   left: '0.02rem',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  backgroundColor: theme.palette.background.default,
-                  opacity: 0.5,
-                  color: 'inherit',
+                  bgcolor: 'background.default',
                   '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    opacity: 1,
+                    color: 'primary.dark',
+                    bgcolor: 'background.default',
                   },
                 }}
+                color="primary"
                 onClick={slideLeftHandler}
               >
-                <KeyboardArrowLeftIcon />
+                <ArrowBackIosIcon />
               </IconButton>
               <IconButton
                 sx={{
+                  bgcolor: 'background.default',
+                  '&:hover': {
+                    color: 'primary.dark',
+                    bgcolor: 'background.default',
+                  },
                   position: 'absolute',
                   left: '0.5rem',
                   bottom: '0.5rem',
-                  // transform: 'translateY(-50%)',
-                  backgroundColor: theme.palette.background.default,
-                  opacity: 0.5,
-                  color: 'inherit',
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    opacity: 1,
-                  },
                 }}
+                color="primary"
                 onClick={toggleFavoriteHandler}
               >
                 {favorite.includes(product?._id) ? (
@@ -292,7 +288,9 @@ const ProductDetails = ({ product }) => {
           spacing={3}
           flexBasis="50%"
         >
-          <Typography variant="h4">{product.title}</Typography>
+          <Typography variant="h4" fontWeight="bold">
+            {product.title.toUpperCase()}
+          </Typography>
           {/* price */}
           <Stack spacing={0} alignItems="flex-end">
             <Typography variant="h6" style={{ lineHeight: '1.5rem' }}>
@@ -373,7 +371,7 @@ const ProductDetails = ({ product }) => {
               {error.quantity}
             </Typography>
           )}
-          <ButtonGroup>
+          <ButtonGroup variant="contained" color="secondary" disableElevation>
             <Button
               onClick={() => setQuantity((prev) => prev - 1)}
               disabled={quantity === 1}

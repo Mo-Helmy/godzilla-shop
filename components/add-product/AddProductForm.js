@@ -167,6 +167,7 @@ const AddProductForm = ({ design, onBackHandler, session, token }) => {
           >
             <MenuItem value="tshirt">T-Shirt</MenuItem>
             <MenuItem value="hoodie">Hoodie</MenuItem>
+            <MenuItem value="tableu">Tableu</MenuItem>
           </TextField>
         </Box>
         <Box>

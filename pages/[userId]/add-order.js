@@ -1,11 +1,11 @@
 import { getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
-import AddOrderProcess from '../../components/orders/addOrder/AddOrderProcess';
+import AddOrderPageComponent from '../../components/orders/addOrder/AddOrderPage';
 import { axiosApi } from '../../util/axiosInstance';
 import { authOptions } from '../api/auth/[...nextauth]';
 
-const AddOrderPage = ({ session, userAddresses }) => {
-  return <AddOrderProcess session={session} userAddresses={userAddresses} />;
+const AddOrderPage = ({ userAddresses }) => {
+  return <AddOrderPageComponent userAddresses={userAddresses} />;
 };
 
 export const getServerSideProps = async ({ req, res, query }) => {

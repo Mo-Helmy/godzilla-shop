@@ -2,6 +2,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  Chip,
   colors,
   Divider,
   MenuItem,
@@ -11,6 +12,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../util/axiosInstance';
 import { apiUrl } from '../../util/link-config';
@@ -20,15 +22,16 @@ const colorsArr = ['black', 'blue', 'gray', 'red', 'green', 'white'];
 const typesArr = ['tshirt', 'hoodie', 'tablue'];
 
 const ShopFilter = ({ onSearch, onClose }) => {
-  const [sort, setSort] = useState('recent');
+  const [sort, setSort] = useState('-1');
   const [selectedColors, setSelectedColors] = useState([]);
-  console.log(
-    '🚀 ~ file: ShopFilter.js:26 ~ ShopFilter ~ selectedColors',
-    selectedColors
-  );
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  console.log(
+    '🚀 ~ file: ShopFilter.js:28 ~ ShopFilter ~ selectedTypes:',
+    selectedTypes
+  );
+
   const [allTags, setAllTags] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState(['tshirt']);
 
   useEffect(() => {
     axiosInstance
@@ -37,18 +40,18 @@ const ShopFilter = ({ onSearch, onClose }) => {
   }, []);
 
   const resetHandler = () => {
-    setSort('recent');
+    setSort('-1');
     setSelectedColors([]);
     setSelectedTags([]);
-    setSelectedTypes(['tshirt']);
+    setSelectedTypes([]);
   };
 
   const searchHandler = () => {
     const searchQuery = {
       sort,
-      colors: selectedColors.length > 0 ? selectedColors : null,
-      tags: selectedTags.length > 0 ? selectedTags : null,
-      types: selectedTypes.length > 0 ? selectedTypes : null,
+      color: selectedColors.length > 0 ? selectedColors : null,
+      tag: selectedTags.length > 0 ? selectedTags : null,
+      type: selectedTypes.length > 0 ? selectedTypes : null,
     };
 
     onSearch(searchQuery);
@@ -56,8 +59,20 @@ const ShopFilter = ({ onSearch, onClose }) => {
     onClose && onClose();
   };
 
+  const selectTypeHandler = (type) => {
+    selectedTypes.includes(type)
+      ? setSelectedTypes((prev) => prev.filter((item) => item !== type))
+      : setSelectedTypes((prev) => prev.concat(type));
+  };
+
+  const selectTagHandler = (tag) => {
+    selectedTags.includes(tag)
+      ? setSelectedTags((prev) => prev.filter((item) => item !== tag))
+      : setSelectedTags((prev) => prev.concat(tag));
+  };
+
   return (
-    <Stack spacing={2} pt={4}>
+    <Stack spacing={2} pt={4} p={2} width={280}>
       <TextField
         select
         label="Sort By:"
@@ -65,10 +80,11 @@ const ShopFilter = ({ onSearch, onClose }) => {
         value={sort}
         onChange={(e) => setSort(e.target.value)}
       >
-        <MenuItem value="recent">Recent</MenuItem>
-        <MenuItem value="oldest">Oldest</MenuItem>
+        <MenuItem value="-1">Recent</MenuItem>
+        <MenuItem value="1">Oldest</MenuItem>
       </TextField>
       <Divider />
+
       <Stack spacing={1}>
         <Typography lineHeight={1}>Colors:</Typography>
         <ColorsButtonGroup
@@ -77,77 +93,50 @@ const ShopFilter = ({ onSearch, onClose }) => {
           changeSelectedColorHandler={(e, n) => setSelectedColors(n)}
           exclusive={false}
         />
-        {/* <ToggleButtonGroup
-          variant="outlined"
-          onChange={(e, n) => setSelectedColors(n)}
-          value={selectedColors}
-          sx={{ display: 'flex', flexWrap: 'wrap' }}
-        >
-          {colorsArr.map((color) => (
-            <ToggleButton value={color} key={color}>
-              <Box
-                width={30}
-                height={30}
-                bgcolor={
-                  color === 'black'
-                    ? 'black'
-                    : color === 'blue'
-                    ? colors.blue[800]
-                    : color === 'gray'
-                    ? colors.grey[700]
-                    : color === 'red'
-                    ? colors.red[500]
-                    : color === 'green'
-                    ? colors.lightGreen[900]
-                    : color === 'white'
-                    ? 'white'
-                    : ''
-                }
-              ></Box>
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup> */}
       </Stack>
-
       <Divider />
 
-      <Autocomplete
-        options={allTags}
-        value={selectedTags}
-        onChange={(e, n) => setSelectedTags(n)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Tags"
-            sx={{ minWidth: 100, maxWidth: '100%' }}
-          />
-        )}
-        multiple
-      />
-
+      <Box width="100%">
+        <Typography gutterBottom>Tags</Typography>
+        <Stack direction="row" gap={1} flexWrap="wrap">
+          {allTags.map((tag, index) => (
+            <Chip
+              key={tag + index}
+              label={tag.toUpperCase()}
+              size="small"
+              variant={selectedTags.includes(tag) ? 'filled' : 'outlined'}
+              color={selectedTags.includes(tag) ? 'secondary' : 'default'}
+              icon={selectedTags.includes(tag) ? <DoneIcon /> : undefined}
+              onClick={selectTagHandler.bind(null, tag)}
+            />
+          ))}
+        </Stack>
+      </Box>
       <Divider />
 
-      <TextField
-        select
-        label="Types:"
-        value={selectedTypes}
-        onChange={(e) => setSelectedTypes(e.target.value)}
-        SelectProps={{ multiple: true }}
-      >
-        {typesArr.map((type) => (
-          <MenuItem value={type} key={type}>
-            {type}
-          </MenuItem>
-        ))}
-      </TextField>
-
+      <Box width="100%">
+        <Typography gutterBottom>Category</Typography>
+        <Stack direction="row" gap={1} flexWrap="wrap">
+          {typesArr.map((type, index) => (
+            <Chip
+              key={type + index}
+              label={type.toUpperCase()}
+              size="small"
+              variant={selectedTypes.includes(type) ? 'filled' : 'outlined'}
+              color={selectedTypes.includes(type) ? 'secondary' : 'default'}
+              icon={selectedTypes.includes(type) ? <DoneIcon /> : undefined}
+              onClick={selectTypeHandler.bind(null, type)}
+            />
+          ))}
+        </Stack>
+      </Box>
       <Divider />
 
       <Stack direction="row" justifyContent="space-between">
-        <Button variant="outlined" onClick={resetHandler}>
+        <Button variant="contained" color="primary" onClick={resetHandler}>
           Reset
         </Button>
-        <Button variant="outlined" onClick={searchHandler}>
+        <Button variant="contained" color="primary" onClick={searchHandler}>
           Search
         </Button>
       </Stack>

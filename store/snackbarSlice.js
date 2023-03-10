@@ -6,6 +6,7 @@ const snackbarSlice = createSlice({
     isOpen: false,
     message: '',
     severity: 'info',
+    isBottom: false,
   },
   reducers: {
     openSnackbar: (state, action) => {
@@ -17,6 +18,9 @@ const snackbarSlice = createSlice({
       state.isOpen = false;
       // state.severity = null;
       // state.message = '';
+    },
+    setIsBottom: (state, action) => {
+      state.isBottom = action.payload;
     },
   },
 });

@@ -4,6 +4,8 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
@@ -56,8 +58,8 @@ const ShippingAddress = ({ onSelectAddress, userAddresses, session }) => {
       });
   };
 
-  const selectAddressHandler = (e) => {
-    onSelectAddress(addresses[e.target.value]);
+  const selectAddressHandler = (e, newValue) => {
+    onSelectAddress(addresses[newValue]);
   };
 
   return (
@@ -68,29 +70,46 @@ const ShippingAddress = ({ onSelectAddress, userAddresses, session }) => {
       alignItems="center"
       justifyContent="center"
     >
-      <Typography variant="h5" align="center">
-        Select Your Shipping Address
-      </Typography>
-      {addresses.length > 0 ? (
-        <RadioGroup onChange={selectAddressHandler}>
-          {addresses?.map((address, i) => (
-            <FormControlLabel
-              key={i}
-              control={<Radio />}
-              label={<AddressItem address={address} />}
-              value={i}
-              sx={{ marginBottom: 2 }}
-            />
-          ))}
-        </RadioGroup>
-      ) : (
-        <Typography align="center">Please add your shipping address</Typography>
-      )}
-
       {!showAddAddressForm && (
-        <Button onClick={() => setShowAddAddressForm(true)}>
-          Add New Address
-        </Button>
+        <>
+          <Typography variant="h5" align="center">
+            Select Your Shipping Address
+          </Typography>
+          {addresses.length > 0 ? (
+            // <RadioGroup onChange={selectAddressHandler}>
+            //   {addresses?.map((address, i) => (
+            //     <FormControlLabel
+            //       key={i}
+            //       control={<Radio />}
+            //       label={<AddressItem address={address} />}
+            //       value={i}
+            //       sx={{ marginBottom: 2 }}
+            //     />
+            //   ))}
+            // </RadioGroup>
+            <ToggleButtonGroup
+              onChange={selectAddressHandler}
+              orientation="vertical"
+            >
+              {addresses?.map((address, i) => (
+                <ToggleButton key={`${i}`} value={i} fullWidth>
+                  <AddressItem address={address} />
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          ) : (
+            <Typography align="center">
+              Please add your shipping address
+            </Typography>
+          )}
+
+          <Button
+            variant="contained"
+            onClick={() => setShowAddAddressForm(true)}
+          >
+            Add New Address
+          </Button>
+        </>
       )}
 
       {showAddAddressForm && (

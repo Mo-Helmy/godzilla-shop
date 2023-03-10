@@ -1,10 +1,10 @@
 import { getServerSession } from 'next-auth';
 import React from 'react';
-import CartList from '../../components/cart/CartList';
+import CartPageComponent from '../../components/cart/CartPage';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 const CartPage = ({ session }) => {
-  return <CartList session={session} />;
+  return <CartPageComponent />;
 };
 
 export const getServerSideProps = async ({ req, res, query }) => {

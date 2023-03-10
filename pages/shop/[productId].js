@@ -1,23 +1,8 @@
-import { Divider, Stack } from '@mui/material';
-import axios from 'axios';
-import { productList } from '../../components/productListArray';
-import ProductDetails from '../../components/products/ProductDetails';
-import RelatedProducts from '../../components/products/ProductDetails/RelatedProducts';
+import ProductDetailsPageComponent from '../../components/products/ProductDetailsPage';
 import axiosInstance from '../../util/axiosInstance';
-import { apiUrl } from '../../util/link-config';
 
 const ProductPage = ({ product }) => {
-  return (
-    <Stack gap={2}>
-      <ProductDetails product={product} />
-      <Divider />
-      <RelatedProducts
-        type={product.type}
-        tags={product.tags}
-        excludeId={product._id}
-      />
-    </Stack>
-  );
+  return <ProductDetailsPageComponent product={product} />;
 };
 
 export default ProductPage;

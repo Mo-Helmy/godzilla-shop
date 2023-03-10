@@ -13,7 +13,7 @@ import ProductDetails from './ProductDetails';
 import ProductItem from './ProductItem';
 import { useSession } from 'next-auth/react';
 
-const ProductList = ({ products, colorsFilter }) => {
+const ProductList = ({ products, colorsFilter, width, noWrap }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -29,12 +29,16 @@ const ProductList = ({ products, colorsFilter }) => {
         direction="row"
         // overflow={{ xs: 'auto', sm: 'hidden' }}
         gap={2}
-        py={2}
-        flexWrap="wrap"
+        // py={2}
+        px={1}
+        flexWrap={noWrap ? 'no-wrap' : 'wrap'}
         // flexWrap={{ sm: 'wrap' }}
-        alignItems="center"
+        // alignItems="center"
+        alignContent="stretch"
         justifyContent="center"
-        // justifyContent={{ sm: 'center' }}
+        // justifyContent="flex-start"
+        // overflow="auto"
+        // sx={{ opacity: opacity,  }}
       >
         {products &&
           products.map((product) => (
@@ -44,6 +48,7 @@ const ProductList = ({ products, colorsFilter }) => {
               colorsFilter={colorsFilter}
               onSelectProduct={SelectedProductHandler}
               session={session}
+              width={width}
             />
           ))}
       </Stack>

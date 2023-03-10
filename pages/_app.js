@@ -1,11 +1,17 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import {
+  colors,
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+  useMediaQuery,
+} from '@mui/material';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import { createContext, useMemo, useState } from 'react';
-import Layout from '../components/layout/Layout';
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
 import store from '../store';
+import Layout from '../components/layout/Layout';
 
 export const ColorModeCtx = createContext({
   toggleColorMode: () => {},
@@ -13,7 +19,9 @@ export const ColorModeCtx = createContext({
 });
 
 export default function App({ Component, pageProps }) {
-  const [mode, setMode] = useState('light');
+  const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const colorModeInitialState = preferDarkMode ? 'dark' : 'light';
+  const [mode, setMode] = useState(colorModeInitialState);
 
   const toggleColorMode = useMemo(
     () => ({
@@ -35,6 +43,24 @@ export default function App({ Component, pageProps }) {
       createTheme({
         palette: {
           mode,
+          ...(mode === 'light'
+            ? {
+                primary: colors.red,
+                secondary: { main: colors.cyan[800] },
+                background: { default: '#f9f9f9', paper: '#e9e9e9' },
+              }
+            : {
+                background: { default: '#2f2f2f', paper: '#3f3f3f' },
+                primary: {
+                  main: colors.cyan[800],
+                  // main: '#31708A',
+                  // main: colors.blue[600],
+                },
+                secondary: {
+                  main: colors.blue[300],
+                  // main: colors.purple[600],
+                },
+              }),
         },
       }),
     [mode]

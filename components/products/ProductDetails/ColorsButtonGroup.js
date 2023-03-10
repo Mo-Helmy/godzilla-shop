@@ -16,10 +16,24 @@ const ColorsButtonGroup = ({
       sx={{ display: 'flex', flexWrap: 'wrap' }}
     >
       {allColors?.map((color) => (
-        <ToggleButton value={color} key={color}>
+        <ToggleButton
+          value={color}
+          key={color}
+          sx={{
+            border: 'none',
+            padding: '4px',
+            bgcolor: selectedColor === color && 'secondary.main',
+          }}
+          color="secondary"
+        >
           <Box
             width={30}
             height={30}
+            border="3px solid"
+            borderColor={
+              selectedColor === color ? 'secondary.main' : 'GrayText'
+            }
+            borderRadius={9999}
             bgcolor={
               color === 'black'
                 ? 'black'

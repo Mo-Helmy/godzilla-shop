@@ -1,6 +1,8 @@
 import { Pagination, Stack, TablePagination, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import CategoryPageComponent from '../../../components/categories/CategoryPageComponent';
+import Layout from '../../../components/layout/Layout';
 import ProductList from '../../../components/products/ProductList';
 import { apiUrl } from '../../../util/link-config';
 
@@ -10,22 +12,13 @@ const ShopPageNum = ({ products, pageCount, productCount }) => {
   console.log('🚀 ~ file: Num.js:6 ~ shopPageNum ~ router', router.query);
 
   return (
-    <Stack direction="column" gap={2} mb={2} alignItems="center">
-      <ProductList products={products} />
-      <Stack>
-        <Typography>Page: {page}</Typography>
-        <Pagination
-          count={pageCount}
-          page={page}
-          variant="outlined"
-          color="primary"
-          onChange={(e, v) => {
-            setPage(v);
-            router.push('/shop/page/' + v);
-          }}
-        />
-      </Stack>
-    </Stack>
+    <CategoryPageComponent
+      products={products}
+      pageCount={pageCount}
+      navigateTo={(page) => router.push(`/shop/page/${page}`)}
+      page={router.query.page}
+      currentCategory="shop"
+    />
   );
 };
 

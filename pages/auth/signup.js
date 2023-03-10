@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth';
 import SignupForm from '../../components/auth/SignupForm';
+import Layout from '../../components/layout/Layout';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 const SignupPage = () => {

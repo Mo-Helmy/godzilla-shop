@@ -188,7 +188,7 @@ const LoginForm = () => {
           <FormHelperText error={Boolean(errorMsg)}>{errorMsg}</FormHelperText>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             sx={{ px: 4, borderRadius: 9999 }}
             disabled={isSending}
             onClick={submitHandler}
@@ -198,7 +198,7 @@ const LoginForm = () => {
 
           <Box
             width="fit-content"
-            color="primary.main"
+            // color="secondary.main"
             mb={-3}
             fontSize={{ xs: '0.9rem' }}
           >
@@ -207,14 +207,15 @@ const LoginForm = () => {
           <Divider sx={{ my: 2 }} />
           <Button
             startIcon={
-              <Avatar sx={{ bgcolor: 'primary.main' }}>
+              <Avatar sx={{ bgcolor: 'secondary.main' }}>
                 <GoogleIcon />
               </Avatar>
             }
             fullWidth
-            variant="outlined"
-            color="primary"
+            variant="contained"
+            color="secondary"
             onClick={() => signIn('google')}
+            sx={{ color: '#fff' }}
           >
             Sign in with google account
           </Button>

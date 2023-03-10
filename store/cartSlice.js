@@ -21,6 +21,7 @@ const cartSlice = createSlice({
     totalPrice: 0,
     totalQuantity: 0,
   },
+
   reducers: {
     resetProcess: (state) => {
       state.process = null;

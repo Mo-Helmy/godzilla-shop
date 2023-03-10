@@ -345,7 +345,7 @@ const SignupForm = () => {
 
           <Box
             width="fit-content"
-            color="primary.main"
+            color="secondary.main"
             mb={-3}
             fontSize={{ xs: '0.9rem' }}
           >
@@ -355,13 +355,13 @@ const SignupForm = () => {
           <Divider sx={{ my: 2 }} />
           <Button
             startIcon={
-              <Avatar sx={{ bgcolor: 'primary.main' }}>
+              <Avatar sx={{ bgcolor: 'secondary.main' }}>
                 <GoogleIcon />
               </Avatar>
             }
             fullWidth
             variant="outlined"
-            color="primary"
+            color="secondary"
           >
             Sign in with google account
           </Button>

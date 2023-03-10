@@ -22,9 +22,7 @@ const ProductTags = ({ tags }) => {
               key={tag + index}
               label={tag}
               clickable
-              onClick={() =>
-                router.push(`/shop?showmore=1&sort=recent&tags=${tag}`)
-              }
+              onClick={() => router.push(`/shop?page=1&tag=${tag}`)}
             />
           ))
         )}

@@ -2,6 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import LoginForm from '../../components/auth/LoginForm';
+import Layout from '../../components/layout/Layout';
 import Loading from '../../components/UI/Loading';
 // import { authOptions } from '../api/auth/[...nextauth]';
 

@@ -1,5 +1,7 @@
 import {
   Badge,
+  Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -19,6 +21,7 @@ import {
 // } from '@mui/icons-material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,10 +32,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { favoriteActions } from '../../store/favoriteSlice';
 import { snackbarActions } from '../../store/snackbarSlice';
 import { apiUrl, s3Url } from '../../util/link-config';
+import ProductItemImageList from './productItem/ProductItemImageList';
+import SaleBadge from './productItem/SaleBadge';
 
-const ProductItem = ({ product, colorsFilter, onSelectProduct, session }) => {
+const ProductItem = ({
+  product,
+  colorsFilter,
+  onSelectProduct,
+  session,
+  width,
+}) => {
   const [mainImage, setMainImage] = useState(null);
-  const [showImageList, setShowImageList] = useState(false);
+  const [showImageList, setShowImageList] = useState(true);
   const router = useRouter();
   const favorite = useSelector((state) => state.favorite.value);
 
@@ -67,47 +78,84 @@ const ProductItem = ({ product, colorsFilter, onSelectProduct, session }) => {
   };
 
   return (
-    <Badge
-      badgeContent={
-        '- ' +
-        Math.ceil(
-          ((product?.price - product?.discount) / product?.price) * 100
-        ) +
-        '%'
-      }
-      color="error"
-      variant="standard"
-      invisible={!product?.discount}
+    <Card
+      // onMouseEnter={() => setShowImageList(true)}
+      // onMouseLeave={() => setShowImageList(false)}
+      sx={{ width: width || 350 }}
     >
-      <Card
-        onMouseEnter={() => setShowImageList(true)}
-        onMouseLeave={() => setShowImageList(false)}
-        sx={{ width: 350 }}
-      >
+      <Box position="relative">
         <Link href={`/shop/${product._id}`}>
           <CardMedia
             component="img"
-            width="90%"
-            height={350}
-            // height={150}
+            width="100%"
+            height={width || 350}
             image={
               s3Url + (mainImage || filteredMainImage || product?.imagesUrl[0])
             }
-            sx={{ p: 1 }}
           />
         </Link>
-        <CardContent style={{ padding: '0 16px 16px' }}>
+
+        {product.discount && (
+          <SaleBadge price={product.price} discount={product.discount} />
+        )}
+        <IconButton
+          color="primary"
+          sx={{
+            bgcolor: 'background.default',
+            '&:hover': { color: 'primary.dark', bgcolor: 'background.default' },
+            position: 'absolute',
+            bottom: '16px',
+            left: '16px',
+            zIndex: 20,
+          }}
+          onClick={toggleFavoriteHandler}
+        >
+          {favorite.includes(product._id) ? (
+            <FavoriteIcon />
+          ) : (
+            <FavoriteBorderIcon />
+          )}
+        </IconButton>
+        <IconButton
+          color="primary"
+          sx={{
+            bgcolor: 'background.default',
+            '&:hover': { color: 'primary.dark', bgcolor: 'background.default' },
+            position: 'absolute',
+            bottom: '16px',
+            right: '16px',
+            zIndex: 20,
+          }}
+          onClick={() => onSelectProduct(product)}
+        >
+          <LocalMallOutlinedIcon />
+        </IconButton>
+      </Box>
+      <CardContent style={{ padding: '0 16px 16px' }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={2}
+        >
           <Typography
-            fontWeight="bold"
-            variant="h6"
+            // fontWeight="bold"
+            fontFamily="fantasy"
+            color="text.secondary"
+            letterSpacing={1}
             component="div"
             p={0}
             maxWidth="100%"
           >
             {product?.title.toUpperCase()}
           </Typography>
-          <Stack spacing={0} alignItems="flex-end" pb={1}>
-            <Typography variant="body1" style={{ lineHeight: '1rem' }}>
+          <Stack spacing={0} alignItems="flex-end">
+            <Typography
+              variant="body1"
+              style={{ lineHeight: '1rem' }}
+              // fontFamily="fantasy"
+              fontWeight="bold"
+            >
               {product?.discount || product?.price}EGP
             </Typography>
             {product?.discount && (
@@ -124,54 +172,14 @@ const ProductItem = ({ product, colorsFilter, onSelectProduct, session }) => {
               </Typography>
             )}
           </Stack>
-          <Collapse in={showImageList}>
-            <ImageList
-              cols={4}
-              rowHeight={60}
-              gap={10}
-              sx={{ width: '100%', overflowX: 'auto' }}
-            >
-              {product?.imagesUrl.map((image) => (
-                <ImageListItem key={image}>
-                  <IconButton
-                    sx={{ width: '100%', height: '100%' }}
-                    onClick={() => setMainImage(image)}
-                  >
-                    <Image
-                      src={s3Url + image}
-                      fill={true}
-                      sizes={40}
-                      alt={product?.title}
-                    />
-                  </IconButton>
-                </ImageListItem>
-              ))}
-            </ImageList>
-          </Collapse>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <Stack direction="row" justifyContent="space-between" width="100%">
-            <IconButton
-              sx={{ '&:hover': { color: '#3f50b5' } }}
-              onClick={toggleFavoriteHandler}
-            >
-              {favorite.includes(product._id) ? (
-                <FavoriteIcon />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </IconButton>
-            <IconButton
-              sx={{ '&:hover': { color: '#3f50b5' } }}
-              onClick={() => onSelectProduct(product)}
-            >
-              <VisibilityIcon />
-            </IconButton>
-          </Stack>
-        </CardActions>
-      </Card>
-    </Badge>
+        </Stack>
+        <ProductItemImageList
+          product={product}
+          onMainImageChange={(image) => setMainImage(image)}
+          totalWidth={width || 350}
+        />
+      </CardContent>
+    </Card>
   );
 };
 
