@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { axiosApi } from '../../../util/axiosInstance';
-import ProductListSlider from '../../landing-sec/TshirtCategorySec/productListSlider';
+import ProductListSlider from '../../landing-sec/TshirtCategorySec/ProductListSlider';
 import ShopProductList from '../../shop/ShopProductList';
 import ProductList from '../ProductList';
 

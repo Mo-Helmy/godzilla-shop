@@ -16,7 +16,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { axiosApi } from '../../util/axiosInstance';
 import ProductList from '../products/ProductList';
-import ProductListSlider from './TshirtCategorySec/productListSlider';
+import ProductListSlider from './TshirtCategorySec/ProductListSlider';
 
 const TshirtCategorySec = ({ products }) => {
   const [tabValue, setTabValue] = useState('NEW_ARRIVALE');

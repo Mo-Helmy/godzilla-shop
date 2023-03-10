@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { snackbarActions } from '../../store/snackbarSlice';
 import Navigation from './Navigation';
-import NavigationUpper from './navigationUpper';
+import NavigationUpper from './NavigationUpper';
 
 const Layout = (props) => {
   const snackbarState = useSelector((state) => state.snackbar);

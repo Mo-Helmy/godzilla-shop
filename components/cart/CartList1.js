@@ -1,7 +1,7 @@
 import { Button, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
-import CartItem1 from './cartItem1';
+import CartItem1 from './CartItem1';
 
 const CartList1 = ({ items }) => {
   const xsMedia = useMediaQuery('(max-width:600px)');
