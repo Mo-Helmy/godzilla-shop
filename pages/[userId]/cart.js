@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import React from 'react';
-import CartPageComponent from '../../components/cart/CartPage';
+import CartPageComponent from '../../components/cart/CartPageComponent';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 const CartPage = ({ session }) => {
